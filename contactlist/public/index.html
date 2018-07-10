@@ -7,6 +7,10 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <title>Contact List APP</title>
+<!-- AngularJS resource library -->
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<!-- Angular controller.js-->
+<script src="controllers/controller.js"></script>
 </head>
 <body>
     <div class="container" ng-controller="AppCtrl">
@@ -20,6 +24,13 @@
                 <th> Action </th>
             </tr>
         </thead>
+        <tbody>
+            <tr ng-repeat="contact in contactList" >
+                <td> {{ contact.name }} </td>
+                <td> {{ contact.email }} </td>
+                <td> {{ contact.number }} </td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>
