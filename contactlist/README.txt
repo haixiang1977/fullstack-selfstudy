@@ -82,4 +82,81 @@ server running on port 3000
 
 3. edit public/index.html
 
-4. 
+4. edit server.js, public/controller.js to add angularjs
+
+5. install mongodb
+https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-16-04
+developer@app-dev-dt0:~/project/fullstack_exercise/contactlist$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+[sudo] password for developer:
+Executing: /tmp/tmp.Ou39d9cc6P/gpg.1.sh --keyserver
+hkp://keyserver.ubuntu.com:80
+--recv
+EA312927
+gpg: requesting key EA312927 from hkp server keyserver.ubuntu.com
+gpg: key EA312927: public key "MongoDB 3.2 Release Signing Key <packaging@mongodb.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+
+developer@app-dev-dt0:~$ sudo systemctl start mongod
+developer@app-dev-dt0:~$ sudo systemctl status mongod
+● mongod.service - High-performance, schema-free document-oriented database
+   Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor preset:
+   Active: active (running) since Wed 2018-07-11 12:53:34 UTC; 7s ago
+     Docs: https://docs.mongodb.org/manual
+ Main PID: 6037 (mongod)
+   CGroup: /system.slice/mongod.service
+           └─6037 /usr/bin/mongod --quiet --config /etc/mongod.conf
+
+Jul 11 12:53:34 app-dev-dt0 systemd[1]: Started High-performance, schema-free do
+developer@app-dev-dt0:~$
+
+developer@app-dev-dt0:~$ sudo systemctl enable mongod
+Created symlink from /etc/systemd/system/multi-user.target.wants/mongod.service to /lib/systemd/system/mongod.service.
+
+6. modify server.js to add mongodb support
+developer@app-dev-dt0:~/project/fullstack_exercise/contactlist$ npm install mongodb
+loadDep:saslprep → addNam ▐ ╢██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░╟
+WARN engine saslprep@1.0.0: wanted: {"node":">=6"} (current: {"node":"4.2.6","npcontactlist@0.1.0 /home/developer/project/fullstack_exercise/contactlist
+└── mongodb@3.1.1  extraneous
+
+7. create mongodb database
+developer@app-dev-dt0:~/project/fullstack_exercise/contactlist$ mongo
+MongoDB shell version: 3.2.20
+connecting to: test
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        http://docs.mongodb.org/
+Questions? Try the support group
+        http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten]
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/                                                                                                                                                             mm/transparent_hugepage/enabled is 'always'.
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten] **        We suggest set                                                                                                                                                             ting it to 'never'
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten]
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/                                                                                                                                                             mm/transparent_hugepage/defrag is 'always'.
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten] **        We suggest set                                                                                                                                                             ting it to 'never'
+2018-07-11T12:53:34.907+0000 I CONTROL  [initandlisten]
+> db
+test
+> show dbs
+local  0.000GB
+
+> use contactList
+switched to db contactList
+
+> db.contactList.insert(user)
+WriteResult({ "nInserted" : 1 })
+> db.contactList.find()
+{ "_id" : ObjectId("5b46044d336484e82dbbd70d"), "name" : "susan", "age" : 18 }
+> user = {name:"henry", "age":19}
+{ "name" : "henry", "age" : 19 }
+> db.contactList.insert(user)
+WriteResult({ "nInserted" : 1 })
+> db.contactList.find()
+{ "_id" : ObjectId("5b46044d336484e82dbbd70d"), "name" : "susan", "age" : 18 }
+{ "_id" : ObjectId("5b460492336484e82dbbd70e"), "name" : "henry", "age" : 19 }
+> db.contactList.find({age:19})
+{ "_id" : ObjectId("5b460492336484e82dbbd70e"), "name" : "henry", "age" : 19 }
+>
+
